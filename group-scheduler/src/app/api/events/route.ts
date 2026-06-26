@@ -18,22 +18,22 @@ export async function POST(request: NextRequest) {
   if (!title || title.length > MAX_TITLE_LENGTH) {
     return NextResponse.json(
       { error: "title is required and must be 1-200 characters" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   const days = Array.from(
     new Set(
       rawDays.filter(
-        (d): d is string => typeof d === "string" && DATE_RE.test(d)
-      )
-    )
+        (d): d is string => typeof d === "string" && DATE_RE.test(d),
+      ),
+    ),
   ).sort();
 
   if (days.length === 0) {
     return NextResponse.json(
       { error: "days must be a non-empty array of YYYY-MM-DD strings" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

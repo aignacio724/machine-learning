@@ -60,12 +60,16 @@ export default function CreateEventForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-sm flex-col gap-6">
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-full max-w-sm flex-col gap-6"
+    >
       <div>
         <label htmlFor="title" className="mb-1 block text-sm font-medium">
           Event title
         </label>
         <input
+          data-testid="event-title-input"
           id="title"
           type="text"
           value={title}
@@ -77,7 +81,10 @@ export default function CreateEventForm() {
       </div>
 
       <div>
-        <span className="mb-1 block text-sm font-medium">
+        <span
+          data-testid="candidate-days"
+          className="mb-1 block text-sm font-medium"
+        >
           Candidate days ({selectedDays.size} selected)
         </span>
         <DatePicker selected={selectedDays} onToggle={toggleDay} />
@@ -86,6 +93,7 @@ export default function CreateEventForm() {
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       <button
+        data-testid="create-event"
         type="submit"
         disabled={submitting}
         className="rounded bg-blue-600 px-4 py-2 font-medium text-white disabled:opacity-50"

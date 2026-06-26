@@ -48,7 +48,7 @@ export function createEvent(title: string, days: string[]): Event {
 }
 
 export function getEventWithParticipants(
-  eventId: string
+  eventId: string,
 ): EventWithParticipants | null {
   const record = getStore().events.get(eventId);
   if (!record) return null;
@@ -62,7 +62,7 @@ export function upsertParticipant(
   eventId: string,
   participantId: string | null,
   name: string,
-  availability: Record<string, AvailabilityStatus>
+  availability: Record<string, AvailabilityStatus>,
 ): Participant | null {
   const record = getStore().events.get(eventId);
   if (!record) return null;

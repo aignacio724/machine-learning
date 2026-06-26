@@ -58,7 +58,7 @@ export default function AvailabilityGrid({
                   >
                     {STATUS_LABELS[option]}
                   </button>
-                )
+                ),
               )}
             </div>
           </div>

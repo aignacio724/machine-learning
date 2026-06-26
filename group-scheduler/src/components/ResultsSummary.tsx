@@ -15,12 +15,15 @@ function topTiedDays(ranked: DayTally[]): string[] {
       (t) =>
         t.unavailable === top.unavailable &&
         t.available === top.available &&
-        t.ifNeeded === top.ifNeeded
+        t.ifNeeded === top.ifNeeded,
     )
     .map((t) => t.day);
 }
 
-export default function ResultsSummary({ days, participants }: ResultsSummaryProps) {
+export default function ResultsSummary({
+  days,
+  participants,
+}: ResultsSummaryProps) {
   if (participants.length === 0) {
     return (
       <div>
@@ -34,7 +37,8 @@ export default function ResultsSummary({ days, participants }: ResultsSummaryPro
   const ranked = rankDays(tallies);
   const unanimous = tallies.filter((t) => t.isUnanimous);
 
-  const bestDays = unanimous.length > 0 ? unanimous.map((t) => t.day) : topTiedDays(ranked);
+  const bestDays =
+    unanimous.length > 0 ? unanimous.map((t) => t.day) : topTiedDays(ranked);
   const bestLabel =
     unanimous.length > 0 ? "Best day — everyone's available" : "Closest match";
 

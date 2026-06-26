@@ -6,7 +6,7 @@ const MAX_NAME_LENGTH = 50;
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id: eventId } = await params;
   const result = getEventWithParticipants(eventId);
@@ -28,14 +28,14 @@ export async function POST(
   if (!name || name.length > MAX_NAME_LENGTH) {
     return NextResponse.json(
       { error: "name is required and must be 1-50 characters" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!rawAvailability) {
     return NextResponse.json(
       { error: "availability is required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -46,19 +46,24 @@ export async function POST(
     if (!validDays.has(day)) {
       return NextResponse.json(
         { error: `"${day}" is not a candidate day for this event` },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (!AVAILABILITY_STATUSES.includes(status as AvailabilityStatus)) {
       return NextResponse.json(
         { error: `"${status}" is not a valid availability status` },
-        { status: 400 }
+        { status: 400 },
       );
     }
     availability[day] = status as AvailabilityStatus;
   }
 
-  const participant = upsertParticipant(eventId, participantId, name, availability);
+  const participant = upsertParticipant(
+    eventId,
+    participantId,
+    name,
+    availability,
+  );
 
   // result above already confirmed the event exists, so this can't be null.
   return NextResponse.json(participant, { status: 200 });

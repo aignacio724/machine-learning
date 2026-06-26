@@ -15,7 +15,9 @@ function storageKey(eventId: string): string {
   return `gs:${eventId}:participantId`;
 }
 
-function defaultAvailability(days: string[]): Record<string, AvailabilityStatus> {
+function defaultAvailability(
+  days: string[],
+): Record<string, AvailabilityStatus> {
   const entries: [string, AvailabilityStatus][] = days.map((day) => [
     day,
     "unavailable",
@@ -105,16 +107,18 @@ export default function EventClient({
       <div>
         <h1 className="text-2xl font-semibold">{event.title}</h1>
         <p className="mt-1 text-sm text-zinc-600">
-          Share this page&apos;s link with the group so everyone can mark
-          their availability.
+          Share this page&apos;s link with the group so everyone can mark their
+          availability.
         </p>
       </div>
 
       {!nameEntered ? (
-        <NameGate onSubmit={(enteredName) => {
-          setName(enteredName);
-          setNameEntered(true);
-        }} />
+        <NameGate
+          onSubmit={(enteredName) => {
+            setName(enteredName);
+            setNameEntered(true);
+          }}
+        />
       ) : (
         <div className="flex flex-col gap-4">
           <p className="text-sm text-zinc-600">
@@ -161,6 +165,7 @@ function NameGate({ onSubmit }: { onSubmit: (name: string) => void }) {
       </label>
       <div className="flex gap-2">
         <input
+          data-testid="name-input"
           id="name"
           type="text"
           value={value}
@@ -173,6 +178,7 @@ function NameGate({ onSubmit }: { onSubmit: (name: string) => void }) {
           placeholder="Your name"
         />
         <button
+          data-testid="event-submit"
           type="button"
           onClick={submit}
           className="rounded bg-blue-600 px-4 py-2 font-medium text-white"
@@ -181,7 +187,9 @@ function NameGate({ onSubmit }: { onSubmit: (name: string) => void }) {
         </button>
       </div>
       {touched && !value.trim() && (
-        <p className="text-sm text-red-600">Please enter a name.</p>
+        <p data-testid="name-input-error" className="text-sm text-red-600">
+          Please enter a name.
+        </p>
       )}
     </div>
   );

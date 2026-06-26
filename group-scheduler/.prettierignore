@@ -1,0 +1,13 @@
+# Build output & dependencies
+node_modules
+.next
+out
+build
+coverage
+
+# Test artifacts
+playwright-report
+test-results
+
+# Lockfiles
+package-lock.json

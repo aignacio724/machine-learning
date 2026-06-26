@@ -9,7 +9,10 @@
     "lint": "eslint",
     "test": "NODE_OPTIONS=--no-experimental-webstorage vitest run",
     "test:watch": "NODE_OPTIONS=--no-experimental-webstorage vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "format:changed": "prettier --write --ignore-unknown $(git diff --relative --name-only --diff-filter=ACMR HEAD)"
   },
   "dependencies": {
     "nanoid": "^5.1.15",
@@ -30,6 +33,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "jsdom": "^29.1.1",
+    "prettier": "^3.8.5",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.9"
