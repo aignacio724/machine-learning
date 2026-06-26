@@ -35,10 +35,10 @@ describe("DatePicker", () => {
 
   it("highlights days present in the selected set", () => {
     render(
-      <DatePicker selected={new Set(["2026-06-20"])} onToggle={vi.fn()} />
+      <DatePicker selected={new Set(["2026-06-20"])} onToggle={vi.fn()} />,
     );
     expect(screen.getByRole("button", { name: "20" }).className).toContain(
-      "bg-blue-600"
+      "bg-blue-600",
     );
   });
 

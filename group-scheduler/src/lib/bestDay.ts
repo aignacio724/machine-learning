@@ -9,9 +9,17 @@ export interface DayTally {
   isUnanimous: boolean;
 }
 
+/**
+ * Method to compute and build a map of availabilities for days given
+ * For each day given, build a map with how many participants are available,
+ * possibly available, or not available.
+ * @param days Array of ISO "YYYY-MM-DD" date strings
+ * @param participants Array of participants in the event
+ * @returns Array of Days with tallies for availablities
+ */
 export function computeDayTallies(
   days: string[],
-  participants: Participant[]
+  participants: Participant[],
 ): DayTally[] {
   return days.map((day) => {
     let available = 0;
@@ -19,10 +27,11 @@ export function computeDayTallies(
     let unavailable = 0;
 
     for (const participant of participants) {
+      // if no availability is found on this day for this participant, default to 'unavailable'
       const status = participant.availability[day] ?? "unavailable";
-      if (status === "available") available++;
-      else if (status === "ifNeeded") ifNeeded++;
-      else unavailable++;
+      if (status === "available") available += 1;
+      else if (status === "ifNeeded") ifNeeded += 1;
+      else unavailable += 1;
     }
 
     return {
@@ -36,6 +45,11 @@ export function computeDayTallies(
   });
 }
 
+/**
+ * Sorts the Day tallies by days with highest availability where every participant can attend
+ * @param tallies Array of DayTally
+ * @returns Sorted Array of Tallied Days
+ */
 export function rankDays(tallies: DayTally[]): DayTally[] {
   return [...tallies].sort((a, b) => {
     if (a.unavailable !== b.unavailable) return a.unavailable - b.unavailable;

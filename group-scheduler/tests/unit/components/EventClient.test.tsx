@@ -24,10 +24,12 @@ afterEach(() => {
 
 describe("EventClient", () => {
   it("shows the name gate for a first-time visitor, then the grid after entering a name", () => {
-    render(<EventClient eventId={EVENT.id} event={EVENT} initialParticipants={[]} />);
+    render(
+      <EventClient eventId={EVENT.id} event={EVENT} initialParticipants={[]} />,
+    );
 
     expect(
-      screen.getByLabelText("Enter your name to mark your availability")
+      screen.getByLabelText("Enter your name to mark your availability"),
     ).toBeInTheDocument();
 
     fireEvent.change(screen.getByPlaceholderText("Your name"), {
@@ -39,7 +41,7 @@ describe("EventClient", () => {
     expect(screen.getByText("Alice")).toBeInTheDocument();
     // A brand new participant defaults every day to Not Available.
     expect(
-      screen.getAllByRole("button", { name: "Not Available" })[0].className
+      screen.getAllByRole("button", { name: "Not Available" })[0].className,
     ).toContain("bg-gray-400");
   });
 
@@ -73,7 +75,9 @@ describe("EventClient", () => {
     });
     vi.stubGlobal("fetch", fetchMock);
 
-    render(<EventClient eventId={EVENT.id} event={EVENT} initialParticipants={[]} />);
+    render(
+      <EventClient eventId={EVENT.id} event={EVENT} initialParticipants={[]} />,
+    );
 
     fireEvent.change(screen.getByPlaceholderText("Your name"), {
       target: { value: "Alice" },
@@ -82,7 +86,9 @@ describe("EventClient", () => {
 
     const [firstDayRow] = screen.getAllByRole("button", { name: "Available" });
     fireEvent.click(firstDayRow);
-    fireEvent.click(screen.getByRole("button", { name: "Save my availability" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "Save my availability" }),
+    );
 
     await waitFor(() => expect(screen.getByText("Saved!")).toBeInTheDocument());
 
@@ -91,7 +97,7 @@ describe("EventClient", () => {
 
     expect(fetchMock).toHaveBeenCalledWith(
       `/api/events/${EVENT.id}/availability`,
-      expect.objectContaining({ method: "POST" })
+      expect.objectContaining({ method: "POST" }),
     );
     expect(fetchMock).toHaveBeenCalledWith(`/api/events/${EVENT.id}`);
   });
@@ -112,11 +118,11 @@ describe("EventClient", () => {
         eventId={EVENT.id}
         event={EVENT}
         initialParticipants={initialParticipants}
-      />
+      />,
     );
 
     expect(
-      screen.queryByLabelText("Enter your name to mark your availability")
+      screen.queryByLabelText("Enter your name to mark your availability"),
     ).not.toBeInTheDocument();
     expect(screen.getByText("Bob")).toBeInTheDocument();
 
@@ -127,10 +133,12 @@ describe("EventClient", () => {
   it("clears a stale participant id that no longer matches any participant", () => {
     localStorage.setItem(storageKey(EVENT.id), "does-not-exist");
 
-    render(<EventClient eventId={EVENT.id} event={EVENT} initialParticipants={[]} />);
+    render(
+      <EventClient eventId={EVENT.id} event={EVENT} initialParticipants={[]} />,
+    );
 
     expect(
-      screen.getByLabelText("Enter your name to mark your availability")
+      screen.getByLabelText("Enter your name to mark your availability"),
     ).toBeInTheDocument();
     expect(localStorage.getItem(storageKey(EVENT.id))).toBeNull();
   });

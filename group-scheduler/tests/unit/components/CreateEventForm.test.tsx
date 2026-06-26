@@ -37,14 +37,18 @@ describe("CreateEventForm", () => {
     fireEvent.click(screen.getByRole("button", { name: "Create event" }));
 
     expect(
-      screen.getByText("Please select at least one candidate day.")
+      screen.getByText("Please select at least one candidate day."),
     ).toBeInTheDocument();
   });
 
   it("submits the title and selected days, then redirects to the new event", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ id: "abc123", title: "Team Offsite", days: ["2026-06-20"] }),
+      json: async () => ({
+        id: "abc123",
+        title: "Team Offsite",
+        days: ["2026-06-20"],
+      }),
     });
     vi.stubGlobal("fetch", fetchMock);
 
@@ -62,14 +66,16 @@ describe("CreateEventForm", () => {
       expect.objectContaining({
         method: "POST",
         body: JSON.stringify({ title: "Team Offsite", days: ["2026-06-20"] }),
-      })
+      }),
     );
   });
 
   it("shows the server error message when creation fails", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: false,
-      json: async () => ({ error: "days must be a non-empty array of YYYY-MM-DD strings" }),
+      json: async () => ({
+        error: "days must be a non-empty array of YYYY-MM-DD strings",
+      }),
     });
     vi.stubGlobal("fetch", fetchMock);
 
@@ -81,7 +87,9 @@ describe("CreateEventForm", () => {
     fireEvent.click(screen.getByRole("button", { name: "Create event" }));
 
     expect(
-      await screen.findByText("days must be a non-empty array of YYYY-MM-DD strings")
+      await screen.findByText(
+        "days must be a non-empty array of YYYY-MM-DD strings",
+      ),
     ).toBeInTheDocument();
     expect(push).not.toHaveBeenCalled();
   });

@@ -10,7 +10,7 @@ function postRequest(eventId: string, body: unknown) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-    }
+    },
   );
   return POST(req, { params: Promise.resolve({ id: eventId }) });
 }

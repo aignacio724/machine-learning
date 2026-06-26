@@ -16,7 +16,7 @@ describe("POST /api/events", () => {
       postRequest({
         title: "  Team Offsite  ",
         days: ["2026-06-26", "2026-06-24", "2026-06-24"],
-      })
+      }),
     );
 
     expect(res.status).toBe(201);
@@ -39,7 +39,7 @@ describe("POST /api/events", () => {
 
   it("filters out malformed day strings, 400s if none remain", async () => {
     const res = await POST(
-      postRequest({ title: "Lunch", days: ["not-a-date", "2026/06/24"] })
+      postRequest({ title: "Lunch", days: ["not-a-date", "2026/06/24"] }),
     );
     expect(res.status).toBe(400);
   });

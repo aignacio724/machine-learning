@@ -4,7 +4,7 @@ import type { Participant } from "@/lib/types";
 
 function participant(
   id: string,
-  availability: Participant["availability"]
+  availability: Participant["availability"],
 ): Participant {
   return { id, name: id, availability, updatedAt: 0 };
 }
@@ -77,7 +77,7 @@ describe("rankDays", () => {
       [
         participant("p1", { a: "unavailable", b: "available" }),
         participant("p2", { a: "unavailable", b: "available" }),
-      ]
+      ],
     );
     const ranked = rankDays(tallies);
     expect(ranked.map((t) => t.day)).toEqual(["b", "a"]);
@@ -89,14 +89,16 @@ describe("rankDays", () => {
       [
         participant("p1", { a: "available", b: "ifNeeded", c: "ifNeeded" }),
         participant("p2", { a: "ifNeeded", b: "available", c: "ifNeeded" }),
-      ]
+      ],
     );
     // a: 1 available, 1 ifNeeded, 0 unavailable
     // b: 1 available, 1 ifNeeded, 0 unavailable (tied with a)
     // c: 0 available, 2 ifNeeded, 0 unavailable
     const ranked = rankDays(tallies);
     expect(ranked[2].day).toBe("c");
-    expect(new Set([ranked[0].day, ranked[1].day])).toEqual(new Set(["a", "b"]));
+    expect(new Set([ranked[0].day, ranked[1].day])).toEqual(
+      new Set(["a", "b"]),
+    );
   });
 
   it("does not mutate the input array", () => {

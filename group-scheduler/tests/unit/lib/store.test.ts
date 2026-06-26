@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { createEvent, getEventWithParticipants, upsertParticipant } from "@/lib/store";
+import {
+  createEvent,
+  getEventWithParticipants,
+  upsertParticipant,
+} from "@/lib/store";
 
 describe("createEvent / getEventWithParticipants", () => {
   it("creates an event retrievable by its generated id", () => {
@@ -63,7 +67,12 @@ describe("upsertParticipant", () => {
     const event = createEvent("Lunch", ["2026-06-24"]);
     upsertParticipant(event.id, null, "Alice", {});
 
-    const stranger = upsertParticipant(event.id, "stale-id-from-elsewhere", "Bob", {});
+    const stranger = upsertParticipant(
+      event.id,
+      "stale-id-from-elsewhere",
+      "Bob",
+      {},
+    );
 
     expect(stranger?.id).not.toBe("stale-id-from-elsewhere");
 

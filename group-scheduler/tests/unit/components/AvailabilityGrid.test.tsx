@@ -8,10 +8,14 @@ const DAYS = ["2026-06-24", "2026-06-25"];
 
 function renderGrid(
   availability: Record<string, AvailabilityStatus> = {},
-  onChange = vi.fn()
+  onChange = vi.fn(),
 ) {
   render(
-    <AvailabilityGrid days={DAYS} availability={availability} onChange={onChange} />
+    <AvailabilityGrid
+      days={DAYS}
+      availability={availability}
+      onChange={onChange}
+    />,
   );
   return onChange;
 }
@@ -21,9 +25,15 @@ describe("AvailabilityGrid", () => {
     renderGrid();
     expect(screen.getByText(/Jun 24/)).toBeInTheDocument();
     expect(screen.getByText(/Jun 25/)).toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: "Available" })).toHaveLength(2);
-    expect(screen.getAllByRole("button", { name: "If Needed" })).toHaveLength(2);
-    expect(screen.getAllByRole("button", { name: "Not Available" })).toHaveLength(2);
+    expect(screen.getAllByRole("button", { name: "Available" })).toHaveLength(
+      2,
+    );
+    expect(screen.getAllByRole("button", { name: "If Needed" })).toHaveLength(
+      2,
+    );
+    expect(
+      screen.getAllByRole("button", { name: "Not Available" }),
+    ).toHaveLength(2);
   });
 
   it("defaults a day with no entry to Not Available styling", () => {
@@ -42,7 +52,9 @@ describe("AvailabilityGrid", () => {
 
   it("calls onChange with the day and clicked status", async () => {
     const onChange = renderGrid();
-    const [, available25] = screen.getAllByRole("button", { name: "Available" });
+    const [, available25] = screen.getAllByRole("button", {
+      name: "Available",
+    });
 
     await userEvent.click(available25);
 

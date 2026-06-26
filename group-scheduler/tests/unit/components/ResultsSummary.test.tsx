@@ -5,7 +5,7 @@ import type { Participant } from "@/lib/types";
 
 function participant(
   id: string,
-  availability: Participant["availability"]
+  availability: Participant["availability"],
 ): Participant {
   return { id, name: id, availability, updatedAt: 0 };
 }
@@ -20,8 +20,14 @@ describe("ResultsSummary", () => {
 
   it("highlights the unanimous day when everyone is available", () => {
     const participants = [
-      participant("p1", { "2026-06-24": "available", "2026-06-25": "ifNeeded" }),
-      participant("p2", { "2026-06-24": "available", "2026-06-25": "unavailable" }),
+      participant("p1", {
+        "2026-06-24": "available",
+        "2026-06-25": "ifNeeded",
+      }),
+      participant("p2", {
+        "2026-06-24": "available",
+        "2026-06-25": "unavailable",
+      }),
     ];
     render(<ResultsSummary days={DAYS} participants={participants} />);
 
@@ -33,8 +39,14 @@ describe("ResultsSummary", () => {
 
   it("falls back to closest match when no day is unanimous", () => {
     const participants = [
-      participant("p1", { "2026-06-24": "available", "2026-06-25": "unavailable" }),
-      participant("p2", { "2026-06-24": "unavailable", "2026-06-25": "available" }),
+      participant("p1", {
+        "2026-06-24": "available",
+        "2026-06-25": "unavailable",
+      }),
+      participant("p2", {
+        "2026-06-24": "unavailable",
+        "2026-06-25": "available",
+      }),
     ];
     render(<ResultsSummary days={DAYS} participants={participants} />);
 
@@ -45,7 +57,11 @@ describe("ResultsSummary", () => {
     const participants = [participant("p1", { "2026-06-24": "available" })];
     render(<ResultsSummary days={DAYS} participants={participants} />);
 
-    expect(screen.getByText(/1 available · 0 if needed · 0 unavailable/)).toBeInTheDocument();
-    expect(screen.getAllByText(/0 available · 0 if needed · 1 unavailable/)).toHaveLength(2);
+    expect(
+      screen.getByText(/1 available · 0 if needed · 0 unavailable/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByText(/0 available · 0 if needed · 1 unavailable/),
+    ).toHaveLength(2);
   });
 });
